@@ -1,6 +1,7 @@
 <?php
 /**
  * @author Gica <xprt64@gmail.com>
+ * @usage php -f extract.php path_to_dir_or_mkv_file
  */
 
 $file	=	$argv[1];
@@ -14,6 +15,12 @@ if(is_dir($file))
 else
 	extract_subtitle($file);
 
+die("\nOK.\n");
+
+/**
+ * Extract subtitle from all mkv files, recursive into dir
+ * @param string $dir
+ */
 function parse_dir_recursive($dir)
 {
 	$files = scandir($dir);
@@ -32,6 +39,12 @@ function parse_dir_recursive($dir)
 	}
 }
 
+/**
+ * Extract subtitle from file and place it under the same name as the filename,
+ * with the srt extension
+ * @param string $file Full mkv file path
+ * @return void
+ */
 function extract_subtitle($file)
 {
 	pecho("extract_subtitle($file)");
@@ -51,8 +64,13 @@ function extract_subtitle($file)
 	extract_subtitle_track($file, $track_id);
 }
 
-die("\nOK.\n");
-
+/**
+ * Returns the track id of the subtitle. It searches rum subtitles, then eng, 
+ * then the first if no rum or eng subtitles are found
+ * @param string $file Full path to mkv file
+ * @param string $found_language Optional, the language
+ * @return int
+ */
 function find_track_id($file, &$found_language = null)
 {
 	$cmd	=	"mkvmerge -I $file";
@@ -105,6 +123,11 @@ function find_track_id($file, &$found_language = null)
 	return reset(keys($subtitle_tracks));
 }
 
+/**
+ * Extract subtitle with track id from mkv file
+ * @param string $file Full path to mkv file
+ * @param int $track_id Track id of the subtitle
+ */
 function extract_subtitle_track($file, $track_id)
 {
 	$subtitle_path	=	preg_replace("#\.mkv#ims", '.srt', $file);
@@ -126,6 +149,10 @@ function extract_subtitle_track($file, $track_id)
 		die("command $cmd failed: $ret (" . implode("\n", $output) . ")");
 }
 
+/**
+ * Print debug messages
+ * @param mixed $s
+ */
 function pecho($s)
 {
 	print_r($s);
