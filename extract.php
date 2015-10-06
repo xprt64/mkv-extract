@@ -120,7 +120,7 @@ function find_track_id($file, &$found_language = null)
 	//returnam prima subtitrare gasita
 	$found_language	=	reset($subtitle_tracks);
 	
-	return reset(keys($subtitle_tracks));
+	return reset(array_keys($subtitle_tracks));
 }
 
 /**
