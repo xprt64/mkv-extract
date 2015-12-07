@@ -134,9 +134,9 @@ function extract_subtitle_track($file, $track_id)
 	
 	if(is_file($subtitle_path))
 	{
-		unlink($subtitle_path);
-		//pecho("Subtitle already exists.");
-		//return;
+		//unlink($subtitle_path);
+		pecho("Subtitle already exists.");
+		return;
 	}
 	
 	$cmd	=	'mkvextract tracks "' . $file . '" ' . $track_id . ':"' . $subtitle_path . '"';
