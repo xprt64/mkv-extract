@@ -139,6 +139,12 @@ function extract_subtitle_track($file, $track_id)
 		return;
 	}
 	
+	if($track_id === '' || $track_id === null)
+	{
+		pecho("null track id");
+		return;
+	}
+	
 	$cmd	=	'mkvextract tracks "' . $file . '" ' . $track_id . ':"' . $subtitle_path . '"';
 	
 	pecho($cmd);
@@ -146,7 +152,10 @@ function extract_subtitle_track($file, $track_id)
 	exec($cmd, $output, $ret);
 	
 	if($ret)
-		die("command $cmd failed: $ret (" . implode("\n", $output) . ")");
+	{
+		pecho("command $cmd failed: $ret (" . implode("\n", $output) . ")");
+		return;
+	}
 }
 
 /**
