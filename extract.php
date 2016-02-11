@@ -73,7 +73,7 @@ function extract_subtitle($file)
  */
 function find_track_id($file, &$found_language = null)
 {
-	$cmd	=	"mkvmerge -I $file";
+	$cmd	=	"mkvmerge -I \"$file\"";
 	
 	$output	=	array();
 	
